@@ -33,13 +33,13 @@ namespace Labb02_Dungeon_crawler.Elements
                 if (!level.CanMoveTo(newSnakeStepX, newSnakeStepY, this))
                     return false;
 
-                int ndx = newSnakeStepX - player.X;
-                int ndy = newSnakeStepY - player.Y;
+                int newDirectionX = newSnakeStepX - player.X;
+                int newDirectionY = newSnakeStepY - player.Y;
 
-                int newDistSq = ndx * ndx + ndy * ndy;
-                int currDistSq = distanceFromPlayerX * distanceFromPlayerX + distanceFromPlayerY * distanceFromPlayerY;
+                int newDistanceSq = newDirectionX * newDirectionX + newDirectionY * newDirectionY;
+                int currentDistanceSq = distanceFromPlayerX * distanceFromPlayerX + distanceFromPlayerY * distanceFromPlayerY;
 
-                if (newDistSq >= currDistSq)
+                if (newDistanceSq >= currentDistanceSq)
                 {
                     X = newSnakeStepX;
                     Y = newSnakeStepY;
