@@ -57,8 +57,7 @@ namespace Labb02_Dungeon_crawler
                     case ConsoleKey.RightArrow:
                         playerPosition = playerPosition.Offset(1, 0);
                         break;
-                    default:
-                        continue;
+ 
                 }
 
                 PlayerMovement(playerPosition);
