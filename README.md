@@ -6,6 +6,9 @@ Spelaren har begränsat synfält och utforskar en karta inläst från en textfil
 
 Spelet styrs med piltangenter eller WASD.
 
-Skapad av Charlie Carlegrund.
 
 <img width="440" height="299" alt="Skärmbild 2025-10-17 033343" src="https://github.com/user-attachments/assets/8c601ce7-cf0d-4327-b3bd-d18bfd6ccc81" />
+
+
+
+Skapad av Charlie Carlegrund.
