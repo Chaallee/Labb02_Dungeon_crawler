@@ -16,15 +16,15 @@ namespace Labb02_Dungeon_crawler.Elements
         public override void EnemyWalkUpdate(LevelData level, Player player)
         {
             int randomDirection = Program.GlobalRandom.Next(0, 4);
-            int newX = X;
-            int newY = Y;
+            int newRatX = X;
+            int newRatY = Y;
 
-            if (randomDirection == 0) newY--;
-            else if (randomDirection == 1) newY++;
-            else if (randomDirection == 2) newX--;
-            else if (randomDirection == 3) newX++;
+            if (randomDirection == 0) newRatY--;
+            else if (randomDirection == 1) newRatY++;
+            else if (randomDirection == 2) newRatX--;
+            else if (randomDirection == 3) newRatX++;
 
-            var target = level.GetElementAt(newX, newY);
+            var target = level.GetElementAt(newRatX, newRatY);
 
             if (target is Player p)
             {
@@ -33,10 +33,10 @@ namespace Labb02_Dungeon_crawler.Elements
                 return;
             }
 
-            if (level.CanMoveTo(newX, newY, this))
+            if (level.CanMoveTo(newRatX, newRatY, this))
             {
-                X = newX;
-                Y = newY;
+                X = newRatX;
+                Y = newRatY;
             }
         }
     }

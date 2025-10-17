@@ -17,9 +17,10 @@ namespace Labb02_Dungeon_crawler.Elements
         {
             double distanceFromPlayer = level.DistanceToPlayer(this);
             int distanceFromPlayerX = X - player.X;
-            int distanceFromPlayerY = Y - player.Y;    
+            int distanceFromPlayerY = Y - player.Y;
 
-            if (distanceFromPlayer > 2.0) return;
+            if (distanceFromPlayer > 2.0)
+                return;
 
             int snakeStepX = Math.Sign(distanceFromPlayerX);
             int snakeStepY = Math.Sign(distanceFromPlayerY);
@@ -29,18 +30,22 @@ namespace Labb02_Dungeon_crawler.Elements
                 int newSnakeStepX = X + mx;
                 int newSnakeStepY = Y + my;
 
-                if (!level.CanMoveTo(newSnakeStepX, newSnakeStepY, this)) return false;
+                if (!level.CanMoveTo(newSnakeStepX, newSnakeStepY, this))
+                    return false;
 
                 int ndx = newSnakeStepX - player.X;
                 int ndy = newSnakeStepY - player.Y;
-                int newDistSq = ndx * ndx + ndy * ndy;
 
-                if (newDistSq >= distanceFromPlayer)
+                int newDistSq = ndx * ndx + ndy * ndy;
+                int currDistSq = distanceFromPlayerX * distanceFromPlayerX + distanceFromPlayerY * distanceFromPlayerY;
+
+                if (newDistSq >= currDistSq)
                 {
                     X = newSnakeStepX;
                     Y = newSnakeStepY;
                     return true;
                 }
+
                 return false;
             }
 
@@ -48,18 +53,17 @@ namespace Labb02_Dungeon_crawler.Elements
             {
                 if (TryStep(snakeStepX, 0)) return;
                 if (snakeStepY != 0 && TryStep(0, snakeStepY)) return;
-
-                if (TryStep(0, 1)) return;     
-                if (TryStep(0, -1)) return;
             }
             else
             {
                 if (TryStep(0, snakeStepY)) return;
                 if (snakeStepX != 0 && TryStep(snakeStepX, 0)) return;
-
-                if (TryStep(1, 0)) return;
-                if (TryStep(-1, 0)) return;
             }
+
+            if (TryStep(0, 1)) return;
+            if (TryStep(0, -1)) return;
+            if (TryStep(1, 0)) return;
+            TryStep(-1, 0);
         }
     }
 }

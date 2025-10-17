@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Labb02_Dungeon_crawler
 {
+
     public class LevelData
     {
         private List<LevelElement> elements = new List<LevelElement>();
@@ -19,9 +20,16 @@ namespace Labb02_Dungeon_crawler
 
         private int mapHeight = 0;
 
-        public void Load(string filename)
+        public int TurnCounter { get; private set; } = 0;
+
+        public void IncrementTurn()
         {
-            string[] lines = File.ReadAllLines(filename);
+            TurnCounter++;
+        }
+
+        public void Load(string fileName)
+        {
+            string[] lines = File.ReadAllLines(fileName);
             mapHeight = lines.Length;
 
             for (int y = 0; y < lines.Length; y++)
@@ -53,7 +61,7 @@ namespace Labb02_Dungeon_crawler
 
         public LevelElement? GetElementAt(int x, int y)
         {
-            foreach (var e in elements)
+            foreach (var e in Elements)
             {
                 if (e.X == x && e.Y == y && !toRemove.Contains(e))
                     return e;
@@ -79,7 +87,7 @@ namespace Labb02_Dungeon_crawler
         {
             Console.Clear();
 
-            foreach (var element in elements)
+            foreach (var element in Elements)
             {
                 if (element is Wall)
                 {
@@ -87,7 +95,7 @@ namespace Labb02_Dungeon_crawler
                     if (dist <= Player.VisionRadius)
                     {
                         var wallPos = new Position(element.X, element.Y);
-                        if (!discoveredWalls.Exists(p => p.X == wallPos.X && p.Y == wallPos.Y))
+                        if (!discoveredWalls.Exists(p => p.Equals(wallPos)))
                             discoveredWalls.Add(wallPos);
                         element.Draw();
                     }
@@ -107,7 +115,8 @@ namespace Labb02_Dungeon_crawler
             Player.Draw();
 
             int chatLogY = mapHeight + 1;
-            WriteAt(0, chatLogY, $"Health: {Player.Health}", ConsoleColor.White);
+            WriteAt(0, chatLogY, $"Health: {Player.Health}", ConsoleColor.DarkGreen);
+            WriteAt(15, chatLogY, $"Turn: {TurnCounter}", ConsoleColor.White);
 
             int visibleMessages = 5;
             int start = Math.Max(0, log.Count - visibleMessages);
@@ -143,7 +152,7 @@ namespace Labb02_Dungeon_crawler
         public List<Enemy> GetAllEnemies()
         {
             List<Enemy> result = new List<Enemy>();
-            foreach (var e in elements)
+            foreach (var e in Elements)
             {
                 if (e is Enemy enemy && !toRemove.Contains(enemy))
                     result.Add(enemy);
@@ -153,9 +162,9 @@ namespace Labb02_Dungeon_crawler
 
         public double DistanceToPlayer(LevelElement e)
         {
-            double distanceX = e.X - Player.X;
-            double distanceY = e.Y - Player.Y;
-            return Math.Sqrt(distanceX * distanceX + distanceY * distanceY);
+            var elementPos = new Position(e.X, e.Y);
+            var playerPos = new Position(Player.X, Player.Y);
+            return elementPos.DistanceTo(playerPos);
         }
 
         private static void WriteAt(int x, int y, string text, ConsoleColor color)

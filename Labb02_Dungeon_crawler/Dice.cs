@@ -23,7 +23,7 @@ namespace Labb02_Dungeon_crawler
 
         public int Throw() => Enumerable.Range(0, numberOfDice).Sum(_ => Program.GlobalRandom.Next(1, sidesPerDice + 1)) + modifier;
 
-        public override string ToString() => $"{numberOfDice}d{sidesPerDice}+{modifier}";
+        //public override string ToString() => $"{numberOfDice}d{sidesPerDice}+{modifier}";
 
     }
 }

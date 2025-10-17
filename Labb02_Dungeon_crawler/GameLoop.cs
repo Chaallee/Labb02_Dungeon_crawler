@@ -21,7 +21,7 @@ namespace Labb02_Dungeon_crawler
 
         public void Run()
         {
-            level.DrawAll();
+            level.DrawAll(); 
 
             while (gameIsRunning)
             {
@@ -43,20 +43,22 @@ namespace Labb02_Dungeon_crawler
                 {
                     case ConsoleKey.W:
                     case ConsoleKey.UpArrow:
-                        playerPosition.Y--;
+                        playerPosition = playerPosition.Offset(0, -1);
                         break;
                     case ConsoleKey.S:
                     case ConsoleKey.DownArrow:
-                        playerPosition.Y++;
+                        playerPosition = playerPosition.Offset(0, 1);
                         break;
                     case ConsoleKey.A:
                     case ConsoleKey.LeftArrow:
-                        playerPosition.X--;
+                        playerPosition = playerPosition.Offset(-1, 0);
                         break;
                     case ConsoleKey.D:
                     case ConsoleKey.RightArrow:
-                        playerPosition.X++;
+                        playerPosition = playerPosition.Offset(1, 0);
                         break;
+                    default:
+                        continue;
                 }
 
                 PlayerMovement(playerPosition);
@@ -68,15 +70,16 @@ namespace Labb02_Dungeon_crawler
                 }
 
                 level.RemoveDeadEnemies();
-                level.DrawAll();
+                level.IncrementTurn(); 
+                level.DrawAll();       
             }
         }
 
-        private void PlayerMovement(Position move)
+        private void PlayerMovement(Position playerMove)
         {
-            int newX = player.X + move.X;
-            int newY = player.Y + move.Y;
-            var obstacle = level.GetElementAt(newX, newY);
+            int newPlayerPositionX = player.X + playerMove.X;
+            int newPlayerPositionY = player.Y + playerMove.Y;
+            var obstacle = level.GetElementAt(newPlayerPositionX, newPlayerPositionY);
 
             if (obstacle is Enemy enemy)
             {
@@ -84,10 +87,10 @@ namespace Labb02_Dungeon_crawler
                 return;
             }
 
-            if (level.CanMoveTo(newX, newY, player))
+            if (level.CanMoveTo(newPlayerPositionX, newPlayerPositionY, player))
             {
-                player.X = newX;
-                player.Y = newY;
+                player.X = newPlayerPositionX;
+                player.Y = newPlayerPositionY;
             }
         }
 
@@ -119,7 +122,7 @@ namespace Labb02_Dungeon_crawler
             }
 
             if (player.Health <= 0)
-                level.LogMessage($"You were killed by {enemy.Name}! Game over", ConsoleColor.Red);
+                level.LogMessage($"You were killed by {enemy.Name}! \nGame over", ConsoleColor.Red);
 
             if (enemy.IsDead())
             {
