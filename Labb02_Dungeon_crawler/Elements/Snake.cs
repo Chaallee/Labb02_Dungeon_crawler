@@ -15,16 +15,14 @@ namespace Labb02_Dungeon_crawler.Elements
 
         public override void EnemyWalkUpdate(LevelData level, Player player)
         {
-            //double distanceFromPlayer = level.DistanceToPlayer(this);
+            double distanceFromPlayer = level.DistanceToPlayer(this);
             int distanceFromPlayerX = X - player.X;
-            int distanceFromPlayerY = Y - player.Y;
-            double distanceFromPlayer = Math.Sqrt(distanceFromPlayerX * distanceFromPlayerX + distanceFromPlayerY * distanceFromPlayerY);     
+            int distanceFromPlayerY = Y - player.Y;    
 
             if (distanceFromPlayer > 2.0) return;
 
             int snakeStepX = Math.Sign(distanceFromPlayerX);
             int snakeStepY = Math.Sign(distanceFromPlayerY);
-            int currentDistance = distanceFromPlayerX * distanceFromPlayerX + distanceFromPlayerY * distanceFromPlayerY;
 
             bool TryStep(int mx, int my)
             {
@@ -37,7 +35,7 @@ namespace Labb02_Dungeon_crawler.Elements
                 int ndy = newSnakeStepY - player.Y;
                 int newDistSq = ndx * ndx + ndy * ndy;
 
-                if (newDistSq >= currentDistance)
+                if (newDistSq >= distanceFromPlayer)
                 {
                     X = newSnakeStepX;
                     Y = newSnakeStepY;

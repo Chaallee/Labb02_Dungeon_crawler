@@ -151,7 +151,7 @@ namespace Labb02_Dungeon_crawler
             return result;
         }
 
-        private double DistanceToPlayer(LevelElement e)
+        public double DistanceToPlayer(LevelElement e)
         {
             double distanceX = e.X - Player.X;
             double distanceY = e.Y - Player.Y;
